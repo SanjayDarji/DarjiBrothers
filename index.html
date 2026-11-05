@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Darji Brothers</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Darji Brothers — premium kurtis, co-ord sets and custom-stitched ladies' wear from Ahmedabad. 50 years of stitching excellence. Order on WhatsApp.">
+<meta name="theme-color" content="#0B0B0B">
+<meta property="og:title" content="Darji Brothers">
+<meta property="og:description" content="Luxury, minimal, made with care. Browse the collection and order on WhatsApp.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230B0B0B'/%3E%3Ctext x='32' y='44' font-family='Georgia,serif' font-size='30' text-anchor='middle' fill='%23FFFFFF'%3EDB%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500;600&family=Hind+Vadodara:wght@500&display=swap">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/store.css">
+</head>
+<body>
+
+<div class="offer-bar" id="offerBar" hidden>
+  <div class="wrap offer-inner">
+    <p><span aria-hidden="true">✦ </span><span id="offerText"></span><span aria-hidden="true"> ✦</span></p>
+    <p class="offer-count" id="offerCount" aria-live="off"></p>
+  </div>
+</div>
+
+<header class="site-header" id="top">
+  <div class="header-inner">
+    <a class="brand" href="#top" aria-label="Darji Brothers home">
+      <span class="logo" id="logo" aria-hidden="true">
+        <svg viewBox="0 0 120 84"><text x="44" y="62" font-family="'Cormorant Garamond',Georgia,serif" font-size="70" font-weight="500" fill="currentColor" text-anchor="middle">D</text><text x="74" y="62" font-family="'Cormorant Garamond',Georgia,serif" font-size="70" font-weight="500" fill="currentColor" text-anchor="middle">B</text><text x="60" y="78" font-family="'Jost',Arial,sans-serif" font-size="7.5" letter-spacing="2.4" fill="currentColor" text-anchor="middle">DARJI BROTHERS</text></svg>
+      </span>
+      <span class="visually-hidden">Darji Brothers</span>
+    </a>
+    <nav class="main-nav" id="mainNav" aria-label="Main">
+      <a href="#top">Home</a>
+      <a href="#shop">Shop</a>
+      <a href="#custom">Custom stitching</a>
+      <a href="#about">About us</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <button class="bag-btn" id="bagOpen" type="button" aria-label="Open your bag">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8h12l1 12H5L6 8Z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M9 10V7a3 3 0 0 1 6 0v3" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        <span class="bag-count" id="bagCount">0</span>
+      </button>
+      <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="mainNav" aria-label="Open menu">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16M4 16h16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero" aria-labelledby="heroTitle">
+    <div class="wrap hero-inner">
+      <h1 id="heroTitle">Tailored for You</h1>
+      <p class="hero-tagline">Luxury · Minimal · Made with care</p>
+      <a class="btn btn-primary btn-wide" href="#shop">Shop Now</a>
+    </div>
+    <ul class="wrap promise-list" aria-label="Why Darji Brothers">
+      <li><h2>Quality</h2><p>Fifty years of stitching, and every piece checked by hand.</p></li>
+      <li><h2>Made For You</h2><p>Every piece is made fresh after you order, in every size from S to XXXXL.</p></li>
+      <li><h2>Order on WhatsApp</h2><p>Pick a colour and size, and your order is sent in one message.</p></li>
+    </ul>
+  </section>
+
+  <section class="arrivals" id="arrivals" aria-labelledby="arrivalsTitle" hidden>
+    <div class="wrap">
+      <h2 class="section-title" id="arrivalsTitle">New Arrivals</h2>
+      <div class="grid grid-4" id="newGrid"></div>
+    </div>
+  </section>
+
+  <section class="categories" id="categories" aria-labelledby="catTitle">
+    <div class="wrap">
+      <h2 class="section-title" id="catTitle">Shop by Category</h2>
+      <div class="cat-tiles" id="categoryTiles"></div>
+    </div>
+  </section>
+
+  <section class="collection" id="shop" aria-labelledby="collectionTitle">
+    <div class="wrap">
+      <h2 class="section-title" id="collectionTitle">Shop</h2>
+      <p class="section-sub centered" id="resultCount"></p>
+
+      <div class="chips" id="categoryChips" role="tablist" aria-label="Categories"></div>
+
+      <div class="toolbar">
+        <label class="search">
+          <span class="visually-hidden">Search products</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m16 16 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <input class="input" id="searchInput" type="search" placeholder="Search kurti, cotton, red…" autocomplete="off">
+        </label>
+        <label class="field compact">
+          <span class="visually-hidden">Size</span>
+          <select class="input" id="sizeFilter">
+            <option value="">All sizes</option>
+          </select>
+        </label>
+        <label class="field compact">
+          <span class="visually-hidden">Sort</span>
+          <select class="input" id="sortSelect">
+            <option value="featured">Recommended</option>
+            <option value="new">Newest first</option>
+            <option value="low">Price: low to high</option>
+            <option value="high">Price: high to low</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="grid" id="productGrid" aria-live="polite">
+        <p class="loading">Loading the collection…</p>
+      </div>
+      <div class="empty" id="emptyState" hidden>
+        <h3>Nothing matches yet</h3>
+        <p>Try another category or size, or message us on WhatsApp and we will stitch it for you.</p>
+        <button class="btn btn-outline" id="clearFilters" type="button">Show all products</button>
+      </div>
+      <p class="demo-note" id="demoNote" hidden>These are sample products. Add your own from the <a href="admin.html">admin page</a>.</p>
+    </div>
+  </section>
+
+  <section class="custom" id="custom" aria-labelledby="customTitle">
+    <div class="wrap custom-inner">
+      <div class="custom-copy">
+        <h2 id="customTitle">Custom stitching</h2>
+        <p>Every size from S to XXXXL is stitched in-house, and any design can be made to your measurements. Send us a photo of what you want, or pick something from the collection and tell us what to change.</p>
+        <a class="btn btn-primary" id="customWa" href="#" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.7a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .1-1.3c0-.1-.2-.2-.4-.3Z"/></svg>
+          Start a custom order
+        </a>
+      </div>
+      <ol class="steps">
+        <li><h3>Share the design</h3><p>Send a photo, a sketch or a product from this site on WhatsApp.</p></li>
+        <li><h3>Send your measurements</h3><p>We tell you exactly which measurements we need and how to take them.</p></li>
+        <li><h3>We cut and stitch</h3><p>Your outfit is cut and stitched by our own tailors. We confirm the price and date before we start.</p></li>
+        <li><h3>Collect or get it delivered</h3><p>Pick it up from us or we arrange delivery. We confirm on WhatsApp when it is ready.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="about" id="about" aria-labelledby="aboutTitle">
+    <div class="wrap">
+      <div class="about-head">
+        <h2 id="aboutTitle">About us</h2>
+        <div class="about-body" id="aboutBody">
+          <p>Welcome to Darji Brothers, your destination for premium custom ladies' wear. We make kurtis, co-ord sets and custom ethnic outfits for women who want clothes that fit properly, and we want every woman to feel confident in what she wears.</p>
+        </div>
+      </div>
+
+      <div class="story" id="story" aria-roledescription="carousel" aria-label="Our story">
+        <div class="story-panel" id="storyPanel" aria-live="off">
+          <p class="story-when" id="storyWhen"></p>
+          <h3 class="story-title" id="storyTitle"></h3>
+          <p class="story-text" id="storyText"></p>
+        </div>
+
+        <div class="story-controls">
+          <span class="story-progress" aria-hidden="true"><span id="storyProgress"></span></span>
+          <button class="story-play" id="storyPlay" type="button" aria-label="Pause the story">
+            <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5h3v14H8zM13 5h3v14h-3z" fill="currentColor"/></svg>
+            <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z" fill="currentColor"/></svg>
+          </button>
+        </div>
+
+        <div class="story-tape">
+          <div class="tape story-tape-band" aria-hidden="true">
+            <div class="tape-nums" id="storyTapeNums"></div>
+          </div>
+          <div class="story-track">
+            <span class="story-thread" id="storyThread" aria-hidden="true"></span>
+            <div class="story-marks" id="storyMarks" role="tablist" aria-label="Chapters"></div>
+            <span class="story-pin" id="storyPin" aria-hidden="true"></span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="contact" id="contact" aria-labelledby="contactTitle">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="contactTitle">Contact us</h2>
+        <p class="section-sub">Tell us what you need and we will write the WhatsApp message for you.</p>
+      </div>
+
+      <div class="contact-grid">
+        <form class="composer" id="composer" novalidate>
+          <fieldset class="composer-step">
+            <legend>What can we help with?</legend>
+            <div class="reasons" id="reasons" role="radiogroup" aria-label="Reason for your message">
+              <button type="button" role="radio" class="reason" data-reason="custom" aria-checked="true">
+                <strong>Custom stitching</strong><span>Make an outfit to my measurements</span>
+              </button>
+              <button type="button" role="radio" class="reason" data-reason="order" aria-checked="false">
+                <strong>An order</strong><span>Ask about something I ordered</span>
+              </button>
+              <button type="button" role="radio" class="reason" data-reason="alter" aria-checked="false">
+                <strong>Alteration</strong><span>Change the fit of a piece</span>
+              </button>
+              <button type="button" role="radio" class="reason" data-reason="question" aria-checked="false">
+                <strong>A question</strong><span>Prices, fabric, delivery</span>
+              </button>
+            </div>
+          </fieldset>
+
+          <div class="composer-fields">
+            <label class="field"><span>Your name</span>
+              <input class="input" id="cName" autocomplete="name" placeholder="Priya Shah">
+            </label>
+            <label class="field"><span>Your city</span>
+              <input class="input" id="cCity" autocomplete="address-level2" placeholder="Ahmedabad">
+            </label>
+            <label class="field full"><span>Message</span>
+              <textarea class="input" id="cMsg" rows="3" placeholder="I would like a cotton kurti like the bandhani one, in navy, knee length."></textarea>
+            </label>
+          </div>
+
+          <details class="measure" id="measureBox">
+            <summary>
+              <span class="measure-title">Add my measurements</span>
+              <span class="measure-sub" id="measureSummary">Optional. Tap a point on the dress form to see how to measure.</span>
+            </summary>
+            <div class="measure-body">
+              <div class="form-figure" id="formFigure">
+                <svg viewBox="0 0 240 400" role="img" aria-label="Tailor's dress form showing where to measure">
+                  <g class="ff-stand">
+                    <rect x="116" y="290" width="8" height="80" rx="3"/>
+                    <path d="M120 368 L72 394 M120 368 L168 394 M120 368 L120 396" fill="none" stroke-width="7" stroke-linecap="round"/>
+                  </g>
+                  <rect class="ff-neck" x="104" y="18" width="32" height="28" rx="6"/>
+                  <circle class="ff-knob" cx="120" cy="14" r="7"/>
+                  <path class="ff-body" d="M105 44 C80 47 54 53 46 70 C38 88 42 110 48 128 C40 150 44 172 62 196 C70 207 70 215 63 229 C51 251 49 271 56 290 L184 290 C191 271 189 251 177 229 C170 215 170 207 178 196 C196 172 200 150 192 128 C198 110 202 88 194 70 C186 53 160 47 135 44 Z"/>
+                  <path class="ff-seam" d="M120 46 L120 290" />
+                  <path class="ff-seam" d="M84 52 C78 120 86 200 92 290" />
+                  <path class="ff-seam" d="M156 52 C162 120 154 200 148 290" />
+                  <g class="ff-lines">
+                    <path data-m="shoulder" d="M46 70 Q120 58 194 70"/>
+                    <path data-m="bust" d="M44 140 Q120 156 196 140"/>
+                    <path data-m="waist" d="M64 205 Q120 216 176 205"/>
+                    <path data-m="hip" d="M53 262 Q120 276 187 262"/>
+                    <path data-m="length" d="M214 68 L214 290 M206 68 L222 68 M206 290 L222 290"/>
+                    <path data-m="sleeve" d="M44 72 L18 210 M10 208 L26 212"/>
+                  </g>
+                  <g class="ff-hits">
+                    <path data-m="shoulder" d="M46 70 Q120 58 194 70"/>
+                    <path data-m="bust" d="M44 140 Q120 156 196 140"/>
+                    <path data-m="waist" d="M64 205 Q120 216 176 205"/>
+                    <path data-m="hip" d="M53 262 Q120 276 187 262"/>
+                    <path data-m="length" d="M214 68 L214 290"/>
+                    <path data-m="sleeve" d="M44 72 L18 210"/>
+                  </g>
+                </svg>
+              </div>
+              <div class="measure-inputs">
+                <div class="unit-toggle" role="radiogroup" aria-label="Units">
+                  <button type="button" role="radio" data-unit="in" aria-checked="true">Inches</button>
+                  <button type="button" role="radio" data-unit="cm" aria-checked="false">cm</button>
+                </div>
+                <div class="m-rows" id="mRows"></div>
+                <p class="m-howto" id="mHowto" aria-live="polite"></p>
+                <p class="m-size" id="mSize" hidden></p>
+              </div>
+            </div>
+          </details>
+
+          <div class="preview">
+            <p class="preview-label" id="previewLabel">Your message</p>
+            <div class="bubble" id="cPreview" aria-labelledby="previewLabel"></div>
+          </div>
+          <a class="btn btn-primary btn-block send-btn" id="cSend" href="#" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.7a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .1-1.3c0-.1-.2-.2-.4-.3Z"/></svg>
+            Send on WhatsApp
+          </a>
+        </form>
+
+        <aside class="reach" aria-label="Other ways to reach us">
+          <div class="hours" id="hoursCard" hidden>
+            <span class="hours-dot" id="hoursDot"></span>
+            <div>
+              <p class="hours-status" id="hoursStatus"></p>
+              <p class="hours-detail" id="hoursDetail"></p>
+            </div>
+          </div>
+
+          <div class="reach-card">
+            <p class="reach-label">WhatsApp</p>
+            <a class="reach-value" id="contactWa" href="#" target="_blank" rel="noopener"></a>
+            <div class="reach-actions">
+              <a class="chip-btn" id="contactWaOpen" href="#" target="_blank" rel="noopener">Open chat</a>
+              <button class="chip-btn" type="button" data-copy="whatsapp">Copy number</button>
+            </div>
+          </div>
+
+          <div class="reach-card" id="contactIgRow">
+            <p class="reach-label">Instagram</p>
+            <a class="reach-value" id="contactIg" href="#" target="_blank" rel="noopener"></a>
+            <div class="reach-actions">
+              <a class="chip-btn" id="contactIgOpen" href="#" target="_blank" rel="noopener">See our latest work</a>
+            </div>
+          </div>
+
+          <div class="reach-card" id="contactEmailRow">
+            <p class="reach-label">Email</p>
+            <a class="reach-value" id="contactEmail" href="#"></a>
+            <div class="reach-actions">
+              <button class="chip-btn" type="button" data-copy="email">Copy email</button>
+            </div>
+          </div>
+
+          <div class="reach-card" id="contactAddrRow" hidden>
+            <p class="reach-label">Visit us</p>
+            <p class="reach-value addr" id="contactAddr"></p>
+            <div class="reach-actions">
+              <a class="chip-btn" id="contactMap" href="#" target="_blank" rel="noopener">Get directions</a>
+              <button class="chip-btn" type="button" data-copy="address">Copy address</button>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <p class="footer-brand">Darji Brothers</p>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="#about">About Us</a>
+      <a href="#shop">Shop</a>
+      <a href="#custom">Custom Stitching</a>
+      <a href="#contact">Size Help</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <p class="footer-addr" id="footerAddr" hidden></p>
+    <p class="footer-contacts" id="footerContacts"></p>
+    <p class="footer-copy">© <span id="year"></span> Darji Brothers <a href="admin.html" class="footer-admin">Admin</a></p>
+  </div>
+</footer>
+
+<!-- Product details -->
+<dialog class="sheet" id="productSheet" aria-labelledby="pName">
+  <div class="sheet-inner">
+    <button class="sheet-close" type="button" data-close aria-label="Close">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+    <div class="gallery">
+      <div class="gallery-main"><img id="pMainImg" alt=""></div>
+      <div class="thumbs" id="pThumbs"></div>
+    </div>
+    <div class="details">
+      <p class="details-cat" id="pCat"></p>
+      <h2 id="pName"></h2>
+      <p class="details-price"><span id="pPrice"></span> <s id="pMrp"></s> <span class="save" id="pSave"></span></p>
+      <p class="stock-out" id="pStockOut" hidden>Sold out in ready sizes. We can still stitch it to your measurements.</p>
+
+      <fieldset class="opt" id="pColorsBox">
+        <legend>Colour: <strong id="pColorName"></strong></legend>
+        <div class="swatches" id="pColors"></div>
+      </fieldset>
+
+      <fieldset class="opt" id="pSizesBox">
+        <legend>Size</legend>
+        <div class="sizes" id="pSizes"></div>
+        <p class="hint">Not sure of your size? Choose Custom fit and send us your measurements.</p>
+      </fieldset>
+
+      <div class="qty-row">
+        <span class="label" id="qtyLabel">Quantity</span>
+        <div class="qty" role="group" aria-labelledby="qtyLabel">
+          <button type="button" id="qtyMinus" aria-label="Decrease quantity">−</button>
+          <output id="qtyVal">1</output>
+          <button type="button" id="qtyPlus" aria-label="Increase quantity">+</button>
+        </div>
+      </div>
+
+      <p class="form-msg" id="pMsg" role="alert"></p>
+
+      <div class="details-actions">
+        <a class="btn btn-primary btn-block" id="pOrder" href="#" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.7a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .1-1.3c0-.1-.2-.2-.4-.3Z"/></svg>
+          Order on WhatsApp
+        </a>
+        <button class="btn btn-outline btn-block" id="pAdd" type="button">Add to bag</button>
+      </div>
+
+      <dl class="spec">
+        <div id="pFabricRow"><dt>Fabric</dt><dd id="pFabric"></dd></div>
+        <div id="pCareRow"><dt>Care</dt><dd id="pCare"></dd></div>
+        <div><dt>Product code</dt><dd id="pCode"></dd></div>
+      </dl>
+      <p class="details-desc" id="pDesc"></p>
+      <button class="link-btn" type="button" id="pShare">Copy link to this product</button>
+    </div>
+  </div>
+</dialog>
+
+<!-- Bag -->
+<dialog class="drawer" id="bagDrawer" aria-labelledby="bagTitle">
+  <div class="drawer-inner">
+    <div class="drawer-head">
+      <h2 id="bagTitle">Your bag</h2>
+      <button class="sheet-close" type="button" data-close aria-label="Close bag">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <ul class="bag-list" id="bagList"></ul>
+    <div class="bag-empty" id="bagEmpty">
+      <p>Your bag is empty. Add a few pieces and send them to us in one WhatsApp message.</p>
+    </div>
+    <div class="drawer-foot" id="bagFoot">
+      <p class="bag-total"><span>Estimated total</span><strong id="bagTotal"></strong></p>
+      <p class="hint">We confirm the final price, stitching and delivery on WhatsApp.</p>
+      <a class="btn btn-primary btn-block" id="bagOrder" href="#" target="_blank" rel="noopener">Send order on WhatsApp</a>
+      <button class="link-btn" type="button" id="bagClear">Empty the bag</button>
+    </div>
+  </div>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="js/config.js"></script>
+<script src="js/fabric-art.js"></script>
+<script src="js/sample-data.js"></script>
+<script src="js/store.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

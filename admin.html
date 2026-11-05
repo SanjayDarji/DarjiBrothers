@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Darji Brothers Admin</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0B0B0B">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230B0B0B'/%3E%3Ctext x='32' y='44' font-family='Georgia,serif' font-size='30' text-anchor='middle' fill='%23FFFFFF'%3EDB%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500;600&family=Hind+Vadodara:wght@500&display=swap">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+<!-- Sign in -->
+<section class="login" id="loginView" hidden>
+  <div class="login-card">
+    <a class="brand" href="index.html">
+      <span class="brand-name">Darji Brothers</span>
+      <span class="brand-gu" lang="gu">દરજી બ્રધર્સ</span>
+    </a>
+    <div class="tape small" aria-hidden="true"></div>
+
+    <form id="loginForm" class="stack" novalidate>
+      <h1>Admin sign in</h1>
+      <div class="demo-enter" id="demoEnter" hidden>
+        <p class="mode-note">This is the demo admin. No password is needed. Changes are saved only in this browser until you connect your Supabase database.</p>
+        <button class="btn btn-primary btn-block" type="button" id="demoEnterBtn">Open the admin panel</button>
+      </div>
+      <label class="field real-login"><span>Email</span>
+        <input class="input" id="loginEmail" type="email" autocomplete="username" required>
+      </label>
+      <label class="field real-login"><span>Password</span>
+        <input class="input" id="loginPassword" type="password" autocomplete="current-password" required>
+      </label>
+      <p class="form-msg" id="loginMsg" role="alert"></p>
+      <button class="btn btn-primary btn-block real-login" type="submit" id="loginBtn">Sign in</button>
+      <button class="link-btn real-login" type="button" id="forgotBtn">Forgot password?</button>
+    </form>
+
+    <form id="recoverForm" class="stack" novalidate hidden>
+      <h1>Set a new password</h1>
+      <label class="field"><span>New password</span>
+        <input class="input" id="recoverPw" type="password" autocomplete="new-password" minlength="8" required>
+        <small>At least 8 characters.</small>
+      </label>
+      <p class="form-msg" id="recoverMsg" role="alert"></p>
+      <button class="btn btn-primary btn-block" type="submit">Save new password</button>
+    </form>
+    <a class="back-link" href="index.html">Back to the shop</a>
+  </div>
+</section>
+
+<!-- Admin app -->
+<div class="app" id="appView" hidden>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="index.html" title="Open the shop">
+        <span class="brand-name">Darji Brothers</span>
+        <span class="brand-gu">Admin</span>
+      </a>
+      <div class="topbar-actions">
+        <span class="who" id="whoAmI"></span>
+        <a class="btn btn-ghost" href="index.html" target="_blank" rel="noopener">View shop</a>
+        <button class="btn btn-outline" type="button" id="signOutBtn">Sign out</button>
+      </div>
+    </div>
+    <nav class="wrap tabs" role="tablist" aria-label="Admin sections">
+      <button role="tab" type="button" data-tab="products" aria-selected="true">Products</button>
+      <button role="tab" type="button" data-tab="offers" aria-selected="false">Offer banner</button>
+      <button role="tab" type="button" data-tab="settings" aria-selected="false">Store details</button>
+      <button role="tab" type="button" data-tab="account" aria-selected="false">Account</button>
+    </nav>
+  </header>
+
+  <main class="wrap main">
+    <p class="mode-banner" id="modeBanner" hidden>
+      Demo mode. Products you add here are saved only in this browser. Follow the README to connect your free Supabase database so customers see them.
+    </p>
+
+    <!-- Products -->
+    <section class="panel" id="tab-products" role="tabpanel">
+      <div class="panel-head">
+        <div>
+          <h2>Products</h2>
+          <p class="sub" id="productStats"></p>
+        </div>
+        <button class="btn btn-primary" type="button" id="addProductBtn">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          Add product
+        </button>
+      </div>
+      <div class="list-tools">
+        <input class="input" id="adminSearch" type="search" placeholder="Search by name, category or code" aria-label="Search products">
+        <select class="input" id="adminCat" aria-label="Filter by category"><option value="">All categories</option></select>
+      </div>
+      <ul class="plist" id="productList"></ul>
+      <div class="empty-admin" id="productEmpty" hidden>
+        <h3>No products yet</h3>
+        <p>Add your first kurti or co-ord set. Photos, colours, sizes and price all go in one form.</p>
+        <button class="btn btn-primary" type="button" id="addFirstBtn">Add product</button>
+      </div>
+    </section>
+
+    <!-- Offers -->
+    <section class="panel" id="tab-offers" role="tabpanel" hidden>
+      <div class="panel-head">
+        <div>
+          <h2>Offer banner</h2>
+          <p class="sub">The newest active offer shows as a pink strip at the top of the shop, with a countdown if it has an end time.</p>
+        </div>
+      </div>
+      <form class="card-form" id="offerForm" novalidate>
+        <input type="hidden" id="offerId">
+        <label class="field"><span>Offer text</span>
+          <input class="input" id="offerTextIn" maxlength="120" placeholder="Diwali offer: 15% off all co-ord sets" required>
+          <small>Keep it short. One line reads best on a phone.</small>
+        </label>
+        <div class="row-2">
+          <label class="field"><span>Ends on</span><input class="input" id="offerDate" type="date"></label>
+          <label class="field"><span>At</span><input class="input" id="offerTime" type="time" value="23:59"></label>
+        </div>
+        <label class="check"><input type="checkbox" id="offerActive" checked> Show this offer on the shop</label>
+        <p class="form-msg" id="offerMsg" role="alert"></p>
+        <div class="form-actions">
+          <button class="btn btn-primary" type="submit" id="offerSave">Save offer</button>
+          <button class="btn btn-ghost" type="button" id="offerReset" hidden>Cancel editing</button>
+        </div>
+      </form>
+      <ul class="olist" id="offerList"></ul>
+    </section>
+
+    <!-- Settings -->
+    <section class="panel" id="tab-settings" role="tabpanel" hidden>
+      <div class="panel-head">
+        <div>
+          <h2>Store details</h2>
+          <p class="sub">Orders go to this WhatsApp number. Contact details show at the bottom of the shop.</p>
+        </div>
+      </div>
+      <form class="card-form" id="settingsForm" novalidate>
+        <label class="field"><span>WhatsApp number for orders</span>
+          <input class="input" id="setWa" inputmode="tel" placeholder="918980223301" required>
+          <small>Country code and number, no spaces or +. For India start with 91.</small>
+        </label>
+        <div class="row-2">
+          <label class="field"><span>Instagram handle</span><input class="input" id="setIg" placeholder="darjibrothers"></label>
+          <label class="field"><span>Email</span><input class="input" id="setEmail" type="email"></label>
+        </div>
+        <label class="field"><span>Shop address</span>
+          <input class="input" id="setAddr" placeholder="Shop no., street, area, city">
+          <small>Leave empty to hide it.</small>
+        </label>
+        <label class="field"><span>About us text</span>
+          <textarea class="input" id="setAbout" rows="6" placeholder="Leave empty to keep the current text on the site."></textarea>
+          <small>Leave a blank line between paragraphs.</small>
+        </label>
+
+        <fieldset class="sub-group">
+          <legend>Opening hours</legend>
+          <p class="hint">Shown on the Contact section with an "Open now" or "Closed now" status in India time. Leave the times empty to hide it.</p>
+          <div class="row-2">
+            <label class="field"><span>Opens at</span><input class="input" id="setOpen" type="time"></label>
+            <label class="field"><span>Closes at</span><input class="input" id="setClose" type="time"></label>
+          </div>
+          <div>
+            <p class="label" id="closedLabel">Closed on</p>
+            <div class="size-checks day-checks" id="closedDays" role="group" aria-labelledby="closedLabel"></div>
+          </div>
+        </fieldset>
+
+        <fieldset class="sub-group">
+          <legend>Our story</legend>
+          <p class="hint">Each chapter becomes a mark on the measuring tape in the About us section. Customers drag the tape to read them in order. Add real years, names and moments from your family's history.</p>
+          <div class="story-rows" id="storyRows"></div>
+          <div class="form-actions">
+            <button class="btn btn-outline" type="button" id="addChapterBtn">Add chapter</button>
+          </div>
+        </fieldset>
+
+        <p class="form-msg" id="settingsMsg" role="alert"></p>
+        <div class="form-actions"><button class="btn btn-primary" type="submit">Save store details</button></div>
+      </form>
+    </section>
+
+    <!-- Account -->
+    <section class="panel" id="tab-account" role="tabpanel" hidden>
+      <div class="panel-head"><div><h2>Account</h2><p class="sub" id="accountSub"></p></div></div>
+      <form class="card-form" id="pwForm" novalidate>
+        <h3>Change password</h3>
+        <label class="field"><span>New password</span><input class="input" id="pwNew" type="password" autocomplete="new-password" minlength="8"></label>
+        <label class="field"><span>Repeat new password</span><input class="input" id="pwNew2" type="password" autocomplete="new-password" minlength="8"></label>
+        <p class="form-msg" id="pwMsg" role="alert"></p>
+        <div class="form-actions"><button class="btn btn-primary" type="submit">Change password</button></div>
+      </form>
+      <div class="card-form" id="demoTools" hidden>
+        <h3>Demo data</h3>
+        <p class="sub">Put the sample products, offer and store details back the way they started.</p>
+        <div class="form-actions">
+          <button class="btn btn-outline danger" type="button" id="resetDemoBtn">Reset demo data</button>
+          <button class="btn btn-primary danger-confirm" type="button" id="resetDemoConfirm" hidden>Yes, reset everything</button>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- Product editor -->
+<dialog class="editor" id="editor" aria-labelledby="editorTitle">
+  <form id="productForm" novalidate>
+    <div class="editor-head">
+      <h2 id="editorTitle">Add product</h2>
+      <button class="icon-btn" type="button" data-close aria-label="Close without saving">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+
+    <div class="editor-body">
+      <input type="hidden" id="fId">
+
+      <fieldset class="group">
+        <legend>Photos</legend>
+        <div class="photos" id="photoList"></div>
+        <label class="drop" id="dropZone">
+          <input type="file" id="photoInput" accept="image/*" multiple>
+          <strong>Add photos</strong>
+          <span>Tap to choose or drop files here. The first photo is the cover. Photos are resized before upload to save space.</span>
+        </label>
+        <div class="url-row">
+          <input class="input" id="photoUrl" type="url" placeholder="Or paste an image link (https://…)" aria-label="Image link">
+          <button class="btn btn-outline" type="button" id="photoUrlAdd">Add link</button>
+        </div>
+        <p class="hint" id="uploadStatus" aria-live="polite"></p>
+      </fieldset>
+
+      <fieldset class="group">
+        <legend>Basics</legend>
+        <label class="field"><span>Product name</span>
+          <input class="input" id="fName" required maxlength="90" placeholder="Bandhani A-line kurti">
+        </label>
+        <label class="field"><span>Category</span>
+          <input class="input" id="fCategory" list="catList" required placeholder="Kurtis">
+          <datalist id="catList"></datalist>
+          <small>Choose one or type a new category.</small>
+        </label>
+        <div class="row-2">
+          <label class="field"><span>Price (₹)</span>
+            <input class="input" id="fPrice" type="number" inputmode="numeric" min="0" step="1" required placeholder="1299">
+          </label>
+          <label class="field"><span>Original price (₹)</span>
+            <input class="input" id="fMrp" type="number" inputmode="numeric" min="0" step="1" placeholder="Optional">
+            <small>Shows a crossed-out price and % off.</small>
+          </label>
+        </div>
+      </fieldset>
+
+      <fieldset class="group">
+        <legend>Colours</legend>
+        <p class="hint">Add each colour you sell. Link a photo to a colour so customers see that photo when they tap the colour.</p>
+        <div class="colors" id="colorList"></div>
+        <button class="btn btn-outline" type="button" id="addColorBtn">Add colour</button>
+      </fieldset>
+
+      <fieldset class="group">
+        <legend>Sizes</legend>
+        <div class="size-checks" id="sizeChecks"></div>
+        <label class="check"><input type="checkbox" id="fCustom" checked> Offer custom fit (customer sends measurements)</label>
+      </fieldset>
+
+      <fieldset class="group">
+        <legend>Details</legend>
+        <label class="field"><span>Description</span>
+          <textarea class="input" id="fDesc" rows="4" placeholder="Length, neckline, sleeves, what it pairs with…"></textarea>
+        </label>
+        <div class="row-2">
+          <label class="field"><span>Fabric</span><input class="input" id="fFabric" placeholder="Pure cotton"></label>
+          <label class="field"><span>Care</span><input class="input" id="fCare" placeholder="Hand wash cold"></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="group">
+        <legend>On the shop</legend>
+        <div class="toggles">
+          <label class="check"><input type="checkbox" id="fVisible" checked> Show on the shop</label>
+          <label class="check"><input type="checkbox" id="fInStock" checked> In stock</label>
+          <label class="check"><input type="checkbox" id="fNew"> Mark as new</label>
+          <label class="check"><input type="checkbox" id="fFeatured"> Feature at the top of the shop</label>
+        </div>
+        <label class="field narrow"><span>Display order</span>
+          <input class="input" id="fOrder" type="number" step="1" value="0">
+          <small>Lower numbers show first. Leave 0 to sort newest first.</small>
+        </label>
+      </fieldset>
+    </div>
+
+    <div class="editor-foot">
+      <p class="form-msg" id="productMsg" role="alert"></p>
+      <button class="btn btn-ghost" type="button" data-close>Cancel</button>
+      <button class="btn btn-primary" type="submit" id="saveProductBtn">Save product</button>
+    </div>
+  </form>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="js/config.js"></script>
+<script src="js/fabric-art.js"></script>
+<script src="js/sample-data.js"></script>
+<script src="js/store.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>
