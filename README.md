@@ -3,7 +3,7 @@
 A 48-second, 16:9 3D cartoon short set in Neon Bay, a fictional coastal city. Built as a single Three.js scene.
 
 ## Download
-- **4K (3840×2160):** see the `neon-bay-v1` release on this repository (Releases → NeonBay_4K.mp4)
+- **4K (3840×2160):** [`NeonBay_4K.mp4`](NeonBay_4K.mp4) (click it, then the download button); best for YouTube
 - **1080p:** [`NeonBay_1080p.mp4`](NeonBay_1080p.mp4) in this branch (click it, then the download button)
 
 ## Scenes
