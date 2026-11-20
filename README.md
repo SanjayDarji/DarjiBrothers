@@ -11,6 +11,9 @@ A 48-second, 16:9 3D cartoon short set in Neon Bay, a fictional coastal city. Bu
 
 ![Thumbnail](NeonBay_Thumbnail.jpg)
 
+## Poster
+- [`NeonBay_Poster.png`](NeonBay_Poster.png) (print quality) / [`NeonBay_Poster.jpg`](NeonBay_Poster.jpg): 2400×3600, 2:3
+
 ## Scenes
 1. 0–8 s — Aerial fly-in, title "WELCOME TO NEON BAY"
 2. 8–16 s — Busy shopping street; Benny crosses while texting, cars brake and honk
