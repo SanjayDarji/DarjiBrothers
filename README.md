@@ -6,6 +6,11 @@ A 48-second, 16:9 3D cartoon short set in Neon Bay, a fictional coastal city. Bu
 - **4K (3840×2160):** [`NeonBay_4K.mp4`](NeonBay_4K.mp4) (click it, then the download button); best for YouTube
 - **1080p:** [`NeonBay_1080p.mp4`](NeonBay_1080p.mp4) in this branch (click it, then the download button)
 
+## Thumbnail
+- [`NeonBay_Thumbnail.jpg`](NeonBay_Thumbnail.jpg): 1920×1080, under 2 MB (YouTube-ready)
+
+![Thumbnail](NeonBay_Thumbnail.jpg)
+
 ## Scenes
 1. 0–8 s — Aerial fly-in, title "WELCOME TO NEON BAY"
 2. 8–16 s — Busy shopping street; Benny crosses while texting, cars brake and honk
