@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Welcome to Neon Bay</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Pacifico&family=Bebas+Neue&display=swap" rel="stylesheet">
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+} }
+</script>
+<style>
+  :root { --bg:#05030c; --ink:#fff; --pink:#ff2fd6; --cyan:#2ef2ff; --u:10px; }
+  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --bg:#05030c; } }
+  :root[data-theme="dark"]{ --bg:#05030c; }
+  html,body{margin:0;height:100%;background:var(--bg);overflow:hidden;color:var(--ink);font-family:'Bebas Neue',system-ui,sans-serif}
+  #stage{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);overflow:hidden;background:#000}
+  #stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+  .ov{position:absolute;pointer-events:none;will-change:transform,opacity}
+  #flash{inset:0;background:#fff;opacity:0}
+  #black{inset:0;background:#000;opacity:0}
+  #t1,#t2{left:0;right:0;text-align:center;opacity:0}
+  #t1{top:24%}
+  #t2{top:30%}
+  .pre{font-family:'Pacifico',cursive;font-size:calc(var(--u)*5.2);color:#fff;line-height:1;
+       text-shadow:0 0 calc(var(--u)*.4) #ff4fd8,0 0 calc(var(--u)*1.4) #ff2fd6,0 0 calc(var(--u)*3) #b81dff;transform:rotate(-4deg);margin-bottom:calc(var(--u)*-.6)}
+  .big{font-family:'Bungee',sans-serif;font-size:calc(var(--u)*11.5);line-height:1.05;letter-spacing:calc(var(--u)*.15);
+       filter:drop-shadow(0 0 calc(var(--u)*.35) rgba(255,47,214,.95)) drop-shadow(0 0 calc(var(--u)*1.6) rgba(122,92,255,.85)) drop-shadow(0 calc(var(--u)*.5) calc(var(--u)*.2) rgba(20,0,40,.6))}
+  .big span{display:inline-block;background:linear-gradient(180deg,#fff6a8 0%,#ffb347 32%,#ff4f8b 62%,#d62bff 100%);
+       -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;-webkit-text-stroke:calc(var(--u)*.07) rgba(255,255,255,.85)}
+  .tag{font-family:'Bebas Neue',sans-serif;font-size:calc(var(--u)*3.3);letter-spacing:calc(var(--u)*.45);color:#e9fbff;margin-top:calc(var(--u)*.6);
+       text-shadow:0 0 calc(var(--u)*.3) #2ef2ff,0 0 calc(var(--u)*1.2) #1aa8ff,0 calc(var(--u)*.2) calc(var(--u)*.3) rgba(0,0,0,.6)}
+  .comic{font-family:'Bungee',sans-serif;color:#ffe03a;font-size:calc(var(--u)*5);-webkit-text-stroke:calc(var(--u)*.32) #1a0b2e;paint-order:stroke fill;
+         text-shadow:calc(var(--u)*.35) calc(var(--u)*.35) 0 #ff2f7a;opacity:0;transform-origin:50% 50%;white-space:nowrap;left:0;top:0}
+  .comic.blue{color:#7ff6ff;text-shadow:calc(var(--u)*.35) calc(var(--u)*.35) 0 #2b5cff}
+  .bubble{background:#fff;color:#16102a;font-family:'Bungee',sans-serif;font-size:calc(var(--u)*2.6);padding:calc(var(--u)*.9) calc(var(--u)*1.6);
+          border-radius:calc(var(--u)*2.2);border:calc(var(--u)*.3) solid #16102a;opacity:0;white-space:nowrap;left:0;top:0;transform-origin:20% 100%}
+  .bubble:after{content:"";position:absolute;left:18%;bottom:calc(var(--u)*-1.6);border:calc(var(--u)*.9) solid transparent;border-top:calc(var(--u)*1.3) solid #16102a}
+  #ui{position:absolute;left:0;right:0;bottom:0;display:flex;gap:10px;align-items:center;padding:10px 14px;background:linear-gradient(transparent,rgba(0,0,0,.65));
+      font-family:system-ui,sans-serif;font-size:14px;opacity:0;transition:opacity .3s}
+  #stage:hover #ui,#ui.show{opacity:1}
+  #ui button{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:8px;padding:6px 12px;font:inherit;cursor:pointer;min-width:44px;min-height:36px}
+  #ui input[type=range]{flex:1;accent-color:#ff2fd6;min-width:60px}
+  #time{font-variant-numeric:tabular-nums;min-width:86px;text-align:right}
+  #loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;font-family:'Bungee',sans-serif;
+           color:#ff6ad5;font-size:22px;letter-spacing:2px;background:radial-gradient(circle at 50% 60%,#2a0a3d,#05030c)}
+  #loading small{font-family:system-ui;color:#c9b8ff;font-size:13px;letter-spacing:0}
+  #start{display:none;font-family:'Bungee',sans-serif;font-size:18px;padding:14px 26px;border-radius:40px;border:2px solid #ff2fd6;background:rgba(255,47,214,.15);color:#fff;cursor:pointer}
+</style>
+</head>
+<body>
+<div id="stage">
+  <canvas id="c"></canvas>
+  <div class="ov" id="flash"></div>
+  <div class="ov comic" id="honk1">HONK!</div>
+  <div class="ov comic" id="honk2">HOOONK!!</div>
+  <div class="ov comic blue" id="click1">*CLICK*</div>
+  <div class="ov comic blue" id="click2">*CLICK*</div>
+  <div class="ov comic blue" id="ding">DING DING!</div>
+  <div class="ov comic" id="splash">SPLASH!!</div>
+  <div class="ov bubble" id="bubble">Aww... come ON!</div>
+  <div class="ov" id="t1"><div class="pre">Welcome to</div><div class="big" id="t1big"></div><div class="tag" id="t1tag">THE CITY WHERE ANYTHING CAN HAPPEN!</div></div>
+  <div class="ov" id="t2"><div class="big" id="t2big"></div><div class="tag" id="t2tag">WHERE EVERY STREET HAS A STORY.</div></div>
+  <div class="ov" id="black"></div>
+  <div id="ui">
+    <button id="play" aria-label="Play or pause">▶</button>
+    <input id="scrub" type="range" min="0" max="48" step="0.01" value="0" aria-label="Timeline">
+    <span id="time">0.0 / 48.0s</span>
+    <button id="snd" aria-label="Toggle sound">🔊</button>
+  </div>
+  <div id="loading">BUILDING NEON BAY…<small id="lmsg">generating city, cars and characters</small><button id="start">▶ PLAY</button></div>
+</div>
+<script type="module" src="main.js"></script>
+</body>
+</html>
